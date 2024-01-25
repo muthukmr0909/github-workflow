@@ -9,21 +9,8 @@ jobs:
   deploy:
     runs-on: windows-latest
     steps: 
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup Lucee Server
-        uses: ortussolutions/lucee@v2
-        with:
-          lucee-version: '5.4.3.2'
-          server-name: 'lucee-server'
-          web-context: 'mura-cms'
-          start: true
-          
-      - name: Deploy Mura CMS
-        run: |
-          mkdir -p mura-cms
-          wget -O mura.zip https://www.getmura.com/getmura/latest
-          unzip mura.zip -d mura-cms
+      - name: print hellow world
+        run: echo "hello world"
 
       
 
