@@ -12,6 +12,15 @@ jobs:
       - name: print hellow world
         run: echo "hello world"
 
+      - name: Deploy code to Lucee server
+        run: |
+          # Use your deployment commands here
+          # Example: Copy files to the server, trigger a deployment script, etc.
+          echo "Deploying Lucee code to server"
+
+          # Example SCP command for copying files to the server
+          scp -r ./* 118@192.168.1.52:/workflow
+
       
 
 
