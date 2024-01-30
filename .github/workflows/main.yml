@@ -21,4 +21,4 @@ jobs:
           scp -r ./* 118@192.168.1.52:/workflow
           
           # REM Running deployment script on Windows
-          deployment.bat
+          powershell deployment.bat
