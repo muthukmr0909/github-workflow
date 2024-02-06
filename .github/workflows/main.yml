@@ -12,13 +12,16 @@ jobs:
       - name: print hello world
         run: echo "hello world"
 
-      - name: Deploy code to Lucee server
+      - name: Install and Build 🔧
         run: |
-          # Use your deployment commands here
-          # Example: Copy files to the server, trigger a deployment script, etc.
-          echo "Deploying Lucee code to server"
-          # Example SCP command for copying files to the server
-          scp -r ./* 118@192.168.1.52:/workflow
-          
-          # REM Running deployment script on Windows
-          powershell deployment.bat
+          mkdir -p dist
+          cp -r src/* dist
+
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1 
+
+      - name: Deploy code to Lucee server
+        uses: muthukmr0909/github-workflow@master
+        with:
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: dist # The folder the action should deploy.
