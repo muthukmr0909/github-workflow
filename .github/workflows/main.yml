@@ -23,5 +23,5 @@ jobs:
       - name: Deploy code to Lucee server
         uses: muthukmr0909/github-workflow@staging
         with:
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: dist # The folder the action should deploy.
+          BRANCH: main # The branch the action should deploy to.
+          FOLDER: dist # The folder the action should deploy to.
