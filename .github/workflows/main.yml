@@ -2,9 +2,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ dev ] # The branch we need to watch on push
+    branches: [ staging ] # The branch we need to watch on push
   pull_request:
-    branches: [ dev ] # The branch we need to watch on pull request merge
+    branches: [ staging ] # The branch we need to watch on pull request merge
 
 jobs:
   deploy:
