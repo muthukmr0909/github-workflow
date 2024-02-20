@@ -1,0 +1,22 @@
+name: My Action
+description: My custom GitHub Action
+inputs:
+  input1:
+    description: 'Input 1 description'
+    required: true
+outputs:
+  output1:
+    description: 'Output 1 description'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+env:
+  MY_VAR: 'my_value'
+branding:
+  icon: 'package.svg'
+  color: 'blue'
+permissions:
+  contents: read
+  issues: write
+documentation:
+  url: 'https://example.com/docs'
