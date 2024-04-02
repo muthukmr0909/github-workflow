@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to Windows Server
 
 on:
   push:
@@ -12,10 +12,21 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .  # deploy all files from the root of the repository
-          publish_branch: main  # change this to the branch used for GitHub Pages
+
+      - name: Set up PowerShell
+        uses: actions/setup-powershell@v1
+
+      - name: Deploy to Server
+        env:
+          SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+          SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+        run: |
+          $targetFolder = "C:\inetpub\wwwroot\test-deployment"
+          $sourceFolder = "$($env:GITHUB_WORKSPACE)\github-workflow"
+          # Create a new session to connect to the server
+          $session = New-PSSession -ComputerName $env:SERVER_ADDRESS -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:SERVER_USERNAME, (ConvertTo-SecureString -String $env:SERVER_PASSWORD -AsPlainText -Force))
+          # Copy files to the server
+          Copy-Item -Path $sourceFolder -Destination $targetFolder -Recurse -ToSession $session
+          # Close the session
+          Remove-PSSession $session
