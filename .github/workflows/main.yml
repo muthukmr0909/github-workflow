@@ -13,9 +13,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up PowerShell
-        uses: actions/setup-powershell@v1
-
       - name: Deploy to Server
         env:
           SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
