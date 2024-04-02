@@ -1,4 +1,4 @@
-name: Deploy to Windows Server
+name: Copy Files to Server
 
 on:
   push:
@@ -9,22 +9,16 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Deploy to Server
-        env:
-          SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
-          SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
-          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
-        run: |
-          # Ensure the backslashes are escaped properly for the targetFolder
-          $targetFolder = "C:\\inetpub\\wwwroot\\test-deployment"
-          $sourceFolder = "$($env:GITHUB_WORKSPACE)\github-workflow"
-          # Create a new session to connect to the server
-          $session = New-PSSession -ComputerName $env:SERVER_ADDRESS -Credential (New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:SERVER_USERNAME, (ConvertTo-SecureString -String $env:SERVER_PASSWORD -AsPlainText -Force))
-          # Copy files to the server
-          Copy-Item -Path $sourceFolder -Destination $targetFolder -Recurse -ToSession $session
-          # Close the session
-          Remove-PSSession $session
+      - name: Copy Files to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_ADDRESS }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "." # Path to the files you want to copy
+          target: "${{ secrets.WORK_DIR }}"
